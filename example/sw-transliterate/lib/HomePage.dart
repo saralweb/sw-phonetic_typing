@@ -1,166 +1,235 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:transliterate/transliterate.dart';
 import 'package:flutter/services.dart';
+import 'package:transliterate/transliterate.dart';
+import 'package:flutter/cupertino.dart';
+
+
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
 
+
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomePage createState() => _HomePage();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePage extends State<HomePage> {
   TextEditingController inputController = TextEditingController();
+  FocusNode focusNode=new FocusNode();
 
   String name = "",
       sugSelected = "",
       constructorString = "",
       inputChar = "",
-  sugFirst="";
+      sugFirst="";
+
   int start=0,end=0;
-  List totalSuggestions = [];
+  bool showSuggestion=false;
+  List totalSuggestions = [], totalSug= [];
   var transliterate = Transliterate();
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    focusNode.addListener(() {
+      print("show sug $showSuggestion");
+      if(focusNode.hasFocus){
+        print(focusNode.hasFocus.toString()+" has");
+        setState(() {
+          showSuggestion=true;
 
+
+        });
+      }
+      else{
+        setState(() {
+          showSuggestion=false;
+        });
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
+
+
     inputController.text=name;
     final val = TextSelection.collapsed(offset: name.length);
+
     inputController.selection = val;
     print("BUILD");
 
+    double width(double sugLen){
+      print("sugLen txt $sugLen");
 
-    onSuggsnSelected(suggestion) {
-      print("On sug selected");
-      sugSelected = suggestion.toString();
-      String attch=transliterate.word(name);
-      // if (sugSelected == " ") {
-      //   name+=" ";
-      // }
-      start=name.length-attch.length;
-      end=name.length;
 
-        inputController.text = name.replaceRange(start, end, sugSelected);
+      if(sugLen<0)
+      {sugLen=0;}
+
+      else if (sugLen==1){sugLen=sugLen*45;}
+      //else if (sugLen>1&&sugLen<15){sugLen*=8+20;}
+
+      else if (sugLen==2){sugLen=60;}
+      else if (sugLen==3){sugLen=70;}
+      else if (sugLen==4){sugLen=85;}
+      else if (sugLen==5){sugLen=95;}
+      else if (sugLen==6){sugLen=110;}
+      else if (sugLen==7){sugLen=120;}
+      else if (sugLen==8){sugLen=135;}
+
+      else if (sugLen==9){sugLen=145;}
+      else if (sugLen==10){sugLen=160;}
+
+      else if (sugLen==11){sugLen=170;}
+      else if (sugLen==12){sugLen=185;}
+      else if (sugLen==13){sugLen=195;}
+      else if (sugLen==14){sugLen=205;}
+      else if (sugLen==15){sugLen=220;}
+
+      //else if(sugLen>5&&sugLen<16){sugLen=(sugLen*10)+60;}
+
+      else if (sugLen>15){sugLen=250;}
+
+
+      return sugLen;
+
     }
 
 
-    suggsnCallBack(pattern) {
+    onSuggsnSelected( suggestion) {
+      print("On sug selected");
+      print(suggestion);
+      sugSelected = suggestion.toString();
+      String attach=transliterate.word(name);
+      start=name.length-attach.length;
+      end=name.length;
+      setState(() {
+        name = name.replaceRange(start, end, suggestion);
+
+
+      });
+    }
+
+
+    suggsnCallBack() {
       print("Sug CallBack");
 
 
+
       if(name!=""){
-        if(totalSuggestions.first!=""){
+
+        if(totalSuggestions.length>0&&totalSuggestions.first!=""){
           // print("suggestion.first "+totalSuggestions.first);
           sugFirst=totalSuggestions.first;
           // print("sugFirst "+totalSuggestions.first);
         }
 
-         start=name.length-(inputChar.length+1);
-         end=name.length;
+        start=name.length-(inputChar.length+1);
+        end=name.length;
 
         if(name.length>1
-             &&(name.split("").last==" ")
-               &&(transliterate.isVC(name))){
-            if(sugFirst!=" "){
-              name = name.replaceRange(start, end, sugFirst)+" ";
-              setState(() {
+            &&(name.split("").last==" ")
+            &&(transliterate.isVC(name))){
+          if(sugFirst!=" "){
+            name = name.replaceRange(start, end, sugFirst)+" ";
 
-              });
-            }
+          }
 
           final val = TextSelection.collapsed(offset: name.length);
           inputController.selection = val;                 //CURSOR POSITION CODE
-
         }
       }
 
 
 
-    print("inputctr "+name);
-        totalSuggestions = transliterate.suggestions(
-            name: name, sugg: sugSelected
-        );
 
-        return totalSuggestions;
-      }
+      totalSuggestions = transliterate.suggestions(
+          name: name, sugg: sugSelected
+      );
+
+      return totalSuggestions;
+    }
 
 
-      return Scaffold(
-        appBar: AppBar(
-          elevation: 5,
-          backgroundColor: Colors.green,
-          title: Text(
-            "HomePage",
-            style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-          ),
+
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 5,
+        backgroundColor: Colors.green,
+        title: Text(
+          "TxtFieldPage",
+          style: TextStyle(
+              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
         ),
-        body: SingleChildScrollView(
-          child: Center(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+      ),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
 
-                  SizedBox(
-                    height: 60,
-                  ),
-
-                  TypeAheadField(
-                    debounceDuration: Duration(milliseconds: 100),
-                    textFieldConfiguration: TextFieldConfiguration(
-
-                        autofocus: true,
-                        // onEditingComplete: (){val+=suggestion.toString();},
-                        controller: inputController,
+                SizedBox(
+                  height: 60,
+                ),
+                // TextField( style: TextStyle(),
+                //     decoration: InputDecoration(
+                //
+                //         hintText: "Enter Text",
+                //         border: OutlineInputBorder())),
 
 
-                        onChanged: (value) async {
-                          name=value;
+                TextField(
+                    focusNode: focusNode,
+                    autofocus: false,
 
-                          inputChar=transliterate.word(name.trim());
-
-                        },
-
-
-                        // autofocus: true,
-                        style: TextStyle(),
-                        decoration: InputDecoration(
-
-                            hintText: "Enter Text",
-                            border: OutlineInputBorder())),
+                    onChanged: (value){
+                      name=value;
+                      inputChar=transliterate.word(name.trim());
+                      setState(() {
+                        totalSug= suggsnCallBack();
+                      });
 
 
-                    suggestionsCallback: suggsnCallBack,
-                    onSuggestionSelected: onSuggsnSelected,
-
-                    itemBuilder: (context, suggestion) {
-                      return Container(
-                        height: 40,
-                        width: 10,
-
-                        alignment: Alignment.center,
-
-                        child: ListTile(
-                          // shape: ,
-
-                          autofocus: true,
-                          minLeadingWidth: 5,
-                          minVerticalPadding: 0,
-                          tileColor: Colors.yellow[200],
-                          title: Text(
-                            "$suggestion",),
-
-                        ),
-                      );
                     },
 
+                    controller: inputController,
+                    style: TextStyle(),
+                    decoration: InputDecoration(
+
+                        hintText: "Enter Text",
+                        border: OutlineInputBorder())
+                ),
+
+                showSuggestion?
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child:
+                  Row(
+                    children:
+                    List.generate(totalSug.length, (index) => Container(
+                      height: 50,
+                      width: width(totalSug[index].toString().length+0.0),
+                      child: ListTile(
+                        onTap: ()=>onSuggsnSelected(totalSug[index]),
+                        title: Text(totalSug[index],
+                          style: TextStyle(),),
+                        tileColor: Colors.grey[200],
+
+                      ),
+                    ),
+                    ),
+
                   ),
-                ]
-            ),
+                ):Container()
+
+
+
+              ]
           ),
         ),
-      );
-    }
+      ),
+
+    );
   }
+}
+

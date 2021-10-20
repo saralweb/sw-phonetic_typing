@@ -1,6 +1,6 @@
 # transliterate
 
-A new Flutter project to transliterate english to hindi language.
+Flutter project to transliterate english to hindi language.
 
 ## Getting Started
 
@@ -11,26 +11,17 @@ Flutter project to transliterate english to hindi language.
 
 ## Features
 
- Transliterates english words to hindi.
- For convenience suggestions are also added to the TypeAheadField.
+Transliterates english words to hindi.
+For convenience suggestions are also added to the TextField.
 
-Features in example project:
+## Features in example project:
 It will automatically select and transliterate your typed word when spaceBar is pressed.
 As you type words and don't select a suggestion it will automatically pick and replace first word of suggestion as you hit spaceBar.
 You can create your own complex words by clicking on suggestions and appending string with the last selected words.
 For eg. सामा +न्+य will give you सामान्य
 
-
 ## Installation
 See the installation instructions on pub.
-
-## Usage examples
-You can import the package with:
-
-import 'package:flutter_typeahead/flutter_typeahead.dart';
-For Cupertino users import:
-
-import 'package:flutter_typeahead/cupertino_flutter_typeahead.dart';
 
 ## Use it as follows:
 1)
@@ -47,6 +38,8 @@ String abc=transliterate.englishToHindi(String str);
 
 It is recommended to use totalSuggestions as some of the words are difficult to transliterate so you can construct your own words.
 
+3)
+isWord() function is used to check last remained string which has not being transliterated(Words that are in english language).
 
 ## Material Example 1:
 
@@ -61,9 +54,7 @@ It is recommended to use totalSuggestions as some of the words are difficult to 
       print("On sug selected");
       sugSelected = suggestion.toString();
       String attch=transliterate.word(name);
-      // if (sugSelected == " ") {
-      //   name+=" ";
-      // }
+      
       start=name.length-attch.length;
       end=name.length;
 

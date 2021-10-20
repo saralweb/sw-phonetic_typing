@@ -11,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_typeahead: ^3.2.1
+
 
 dev_dependencies:
   flutter_test:
