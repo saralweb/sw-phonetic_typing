@@ -67,29 +67,13 @@ class _HomePage extends State<HomePage> {
       {sugLen=0;}
 
       else if (sugLen==1){sugLen=sugLen*45;}
-      //else if (sugLen>1&&sugLen<15){sugLen*=8+20;}
 
-      else if (sugLen==2){sugLen=60;}
-      else if (sugLen==3){sugLen=70;}
-      else if (sugLen==4){sugLen=85;}
-      else if (sugLen==5){sugLen=95;}
-      else if (sugLen==6){sugLen=110;}
-      else if (sugLen==7){sugLen=120;}
-      else if (sugLen==8){sugLen=135;}
-
-      else if (sugLen==9){sugLen=145;}
-      else if (sugLen==10){sugLen=160;}
-
-      else if (sugLen==11){sugLen=170;}
-      else if (sugLen==12){sugLen=185;}
-      else if (sugLen==13){sugLen=195;}
-      else if (sugLen==14){sugLen=205;}
-      else if (sugLen==15){sugLen=220;}
-
-      //else if(sugLen>5&&sugLen<16){sugLen=(sugLen*10)+60;}
-
-      else if (sugLen>15){sugLen=250;}
-
+      else if(sugLen%2==0){
+        sugLen=60+((sugLen/2)-1)*25;
+      }
+      else if(sugLen%2!=0){
+        sugLen=70+((sugLen~/2)-1)*25;
+      }
 
       return sugLen;
 
@@ -213,7 +197,7 @@ class _HomePage extends State<HomePage> {
                         onTap: ()=>onSuggsnSelected(totalSug[index]),
                         title: Text(totalSug[index],
                           style: TextStyle(),),
-                        tileColor: Colors.grey[200],
+                        tileColor: Colors.white,
 
                       ),
                     ),
