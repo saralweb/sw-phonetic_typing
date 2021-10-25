@@ -1,8 +1,8 @@
 name: transliterate
 description: A new Flutter project to transliterate english to hindi language.
 version: 0.0.1
-homepage:
-author:
+homepage: https://github.com/saralweb/sw-transliterate
+
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
