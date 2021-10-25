@@ -28,6 +28,7 @@ See the installation instructions on pub.
 totalSuggestions = transliterate.suggestions(
             name: name, sugg: sugSelected
         );
+This function will execute with a average time of 30ms.
 
 Where totalSuggestions will give you a list of suggestions,In which two parameters have to be passed i.e name(your TextField text or controller text) 
 and sugg i.e the suggestion which user have selected.
