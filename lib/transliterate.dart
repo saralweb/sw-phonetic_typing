@@ -14,7 +14,9 @@ class Transliterate {
  // consonants.split("").for
 
     String englishToHindi(String str) {
-      str=str.toLowerCase();
+      
+      str=str.toLowerCase(); 
+
     var hindi = _transliterateEnglishToHindi(str);
     return hindi;
   }
@@ -40,7 +42,7 @@ class Transliterate {
 
 
     if(name.isEmpty){
-      return [" "];        //2nd list
+      return[" "];        //2nd list
     }
 
 
@@ -437,14 +439,14 @@ print("ss "+ss);
       "n": "न", //n
       "o": "ओ", //o
       "p": "प", //p
-      "q": "क्यों", //q
+      "q": "क", //q
       "r": "र", //r
       "s": "स", //s
       "t": "त", //t
       "u": "उ", //u
       "v": "व", //v
       "w": "व", //w
-      "x": "हऎ", //x
+      "x": "क्ष", //x
       "y": "य", //y
       "z": "ज", //z
 
@@ -501,7 +503,24 @@ print("ss "+ss);
         matra = "";
       }
     consonant = coreSound.coreSound;
-       //these lines were
+      if(consonant.split("").last=="a"){
+        consonant="अ";
+        matra="";
+      }else if(consonant.split("").last=="e"){
+        consonant="ई";
+        matra="";
+      }else if(consonant.split("").last=="i"){
+        consonant="इ";
+        matra="";
+      }else if(consonant.split("").last=="o"){
+        consonant="ओ";
+        matra="";
+      }else if(consonant.split("").last=="उ"||consonant.split("").last=="u"){
+        consonant="उ";
+        matra="";
+      }
+
+      //these lines were
       return consonant  + matra;    //at end of if else
     }
   }
