@@ -8,144 +8,128 @@ class Transliterate {
   // var vowels = "AaEeIiOoUu";
   // var punctuation = ",.><?/+=-_}{[]*&^%\$#@!~`\"\\|:;()";
   // var digits = "0123456789";
-  String lastWordOfName="";
-  String reten="";
+  String lastWordOfName = "";
+  String reten = "";
 
- // consonants.split("").for
+  // consonants.split("").for
 
-    String englishToHindi(String str) {
-      str=str.toLowerCase();
+  String englishToHindi(String str) {
+    str = str.toLowerCase();
+
     var hindi = _transliterateEnglishToHindi(str);
     return hindi;
   }
-  
 
-  List suggestions ({required String name ,required String sugg}) {
-      name=name.toLowerCase();
-      print("name in pac "+name);
+  List suggestions({required String name, required String sugg}) {
+    name = name.toLowerCase();
+    print("name in pac " + name);
 
-    lastWordOfName=lastWordOf(name);
+    lastWordOfName = lastWordOf(name);
 
-    reten=ret(name: name);
+    reten = ret(name: name);
 
+    String lst = "${englishToHindi(lastWordOfName)}";
 
-    String lst= "${englishToHindi(lastWordOfName)}";
+    List sug = [];
 
-    List sug=[];
-
-
-    if(lst.isNotEmpty){
-      sug.add(lst);        //1st list
+    if (lst.isNotEmpty) {
+      sug.add(lst); //1st list
     }
 
-
-    if(name.isEmpty){
-      return [" "];        //2nd list
+    if (name.isEmpty) {
+      return [" "]; //2nd list
     }
 
-
-
-    if(reten.isNotEmpty){     //3rd list
+    if (reten.isNotEmpty) {
+      //3rd list
       sug.add(reten);
     }
 
+    if (sugges[lastWordOfName] != null) {
+      sug.addAll(sugges[lastWordOfName]);
+    } //4th list
 
-    if(sugges[lastWordOfName]!=null)
-    {sug.addAll(sugges[lastWordOfName]);}        //4th list
+    if (sugges[lastWordOf(word(name))] != null) //5th list
+    {
+      sug.addAll(sugges[lastWordOf(word(name))]);
+    } //suggestion of remaining characters
+    //after suggestion selection
 
-
-
-    if(sugges[lastWordOf(word(name))]!=null)                //5th list
-        { sug.addAll(sugges[lastWordOf(word(name))]);}     //suggestion of remaining characters
-                                                            //after suggestion selection
-
-
-
-    if(sugges[name[name.length-1]]!=null){
-      sug.addAll(sugges[name[name.length-1]]);            //6th list
+    if (sugges[name[name.length - 1]] != null) {
+      sug.addAll(sugges[name[name.length - 1]]); //6th list
     }
 
-
-    if(sugges[name[name.length-1]]!=null){
-      sug.add(" ");            //7th list
+    if (sugges[name[name.length - 1]] != null) {
+      sug.add(" "); //7th list
     }
 
-      return sug;}
-
-
-
-String lastWordOf(String name){
-  String ss = "";
-  print("name in lastWord $name");
-  ss = name
-      .split(" ")
-      .last;
-print("ss "+ss);
-  return ss;
-}
-
-
-  String patt0(String patt0){
-
-    if(sugges[patt0]!=null){
-    patt0=sugges[patt0][0];
-    }
-      return patt0;
+    return sug;
   }
 
+  String lastWordOf(String name) {
+    String ss = "";
+    print("name in lastWord $name");
+    ss = name.split(" ").last;
+    print("ss " + ss);
+    return ss;
+  }
 
-      String ret({required String name}){
-        String reten="",reten2="";
-        name=name.split(" ").last;
-      int i=0;
-      int start=0,last=1;
-        print(name.length);
-           while(i<name.length){
-             if(patt0(name.substring(start,last))!=""){
-               reten+=patt0(name.substring(start,last));
-
-              start=last;
-              last++;
-              i++;
-            }
-           }
-           print("reten $reten");
-           print("reten2 $reten2");
-      return reten;
-      }
-
-
-
-    String word(String input){
-      String ans="",
-          wrd=input.split(" ").last;
-      int i=wrd.length-1;
-      while(i>=0&&(_isConsonant(wrd[i])||_isVowel(wrd[i])||_isPunct(wrd[i])||_isDigit(wrd[i]))){
-        ans=wrd[i]+ans;
-        i--;
-      }
-      return ans;
-
+  String patt0(String patt0) {
+    if (sugges[patt0] != null) {
+      patt0 = sugges[patt0][0];
     }
+    return patt0;
+  }
 
+  String ret({required String name}) {
+    String reten = "", reten2 = "";
+    name = name.split(" ").last;
+    int i = 0;
+    int start = 0, last = 1;
+    print(name.length);
+    while (i < name.length) {
+      if (patt0(name.substring(start, last)) != "") {
+        reten += patt0(name.substring(start, last));
 
-    bool isVC(String testName){
-      String last=testName.split("")[testName.length-2]; //Check last character excluding space of
-                                                         //inputController if consonant or not
-      if(_isConsonant(last)||_isVowel(last)||_isPunct(last)||_isDigit(last)){
-        return true;
+        start = last;
+        last++;
+        i++;
       }
-      return false;
     }
+    print("reten $reten");
+    print("reten2 $reten2");
+    return reten;
+  }
 
+  String word(String input) {
+    String ans = "", wrd = input.split(" ").last;
+    int i = wrd.length - 1;
+    while (i >= 0 &&
+        (_isConsonant(wrd[i]) ||
+            _isVowel(wrd[i]) ||
+            _isPunct(wrd[i]) ||
+            _isDigit(wrd[i]))) {
+      ans = wrd[i] + ans;
+      i--;
+    }
+    return ans;
+  }
 
-
-
+  bool isVC(String testName) {
+    String last = testName.split(
+        "")[testName.length - 2]; //Check last character excluding space of
+    //inputController if consonant or not
+    if (_isConsonant(last) ||
+        _isVowel(last) ||
+        _isPunct(last) ||
+        _isDigit(last)) {
+      return true;
+    }
+    return false;
+  }
 
   bool _findstr(String str, String tofind) {
-    for (var i = 0; i < str.length; i++)
-      if (str[i] == tofind)
-        return true;
+    for (var i = 0; i < str.length; i++) if (str[i] == tofind) return true;
     return false;
   }
 
@@ -165,8 +149,7 @@ print("ss "+ss);
   }
 
   bool _isConsonant(String a) {
-    var str =
-        "bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ";
+    var str = "bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ";
     return _findstr(str, a);
   }
 
@@ -174,31 +157,31 @@ print("ss "+ss);
   String _getMatra(String str) {
     var i = 0;
 
-     if(str=="a"){
+    if (str == "a") {
       return "ा";
-    }else if(str=="i"){
+    } else if (str == "i") {
       return "ि";
-    }else if(str=="ee"){
+    } else if (str == "ee") {
       return "ई";
-    }else if(str=="ii"){
+    } else if (str == "ii") {
       return "ी";
-    }else if(str=="u"){
+    } else if (str == "u") {
       return "ु";
-    }else if(str=="uu"){
+    } else if (str == "uu") {
       return "ू";
-    }else if(str=="e"){
+    } else if (str == "e") {
       return "े";
-    }else if(str=="ae"){
+    } else if (str == "ae") {
       return "ै";
-    }else if(str=="o"){
+    } else if (str == "o") {
       return "ो";
-    }else if(str=="ou"){
-      return "ौ";}
-      else if(str=="au"){
+    } else if (str == "ou") {
       return "ौ";
-    }else if(str=="n"){
+    } else if (str == "au") {
+      return "ौ";
+    } else if (str == "n") {
       return "ा";
-    }else if(str=="ah"){
+    } else if (str == "ah") {
       return "ा";
     }
 
@@ -221,46 +204,37 @@ print("ss "+ss);
     return "";
   }
 
-
   CoreSound _getShift(String str) {
     str = str.toLowerCase();
 
-              //VOWELS DEFINITION
+    //VOWELS DEFINITION
     if (str.indexOf("a") == 0) {
       if (str.indexOf("aa") == 0) {
         return CoreSound(coreSound: "आ", len: 2);
-      }
-      else if (str.indexOf("ao") == 0) {
-       if (str.indexOf("aoo") == 0) {
-        return CoreSound(coreSound: "औ", len: 3);
-      }
+      } else if (str.indexOf("ao") == 0) {
+        if (str.indexOf("aoo") == 0) {
+          return CoreSound(coreSound: "औ", len: 3);
+        }
         return CoreSound(coreSound: "ओ", len: 2);
       }
       return CoreSound(coreSound: "अ", len: 1);
-    }
-    else if (str.indexOf("ee") == 0) {
+    } else if (str.indexOf("ee") == 0) {
       return CoreSound(coreSound: "ई", len: 2);
-    }
-    else if (str.indexOf("e") == 0) {
+    } else if (str.indexOf("e") == 0) {
       return CoreSound(coreSound: "इ", len: 1);
-    }
-    else if (str.indexOf("u") == 0) {
+    } else if (str.indexOf("u") == 0) {
       if (str.indexOf("uu") == 0) {
         return CoreSound(coreSound: "ऊ", len: 2);
       }
       return CoreSound(coreSound: "उ", len: 1);
     }
 
-     if (str.indexOf("rri") == 0) {
+    if (str.indexOf("rri") == 0) {
       return CoreSound(coreSound: "ऋ", len: 3);
     }
 
-
-
     if (str.indexOf("k") == 0) {
-
       if (str.indexOf("kh") == 0) {
-
         return CoreSound(coreSound: "ख", len: 2);
       }
       return CoreSound(coreSound: "क", len: 1);
@@ -389,7 +363,6 @@ print("ss "+ss);
     return CoreSound(coreSound: " ", len: 1);
   }
 
-
   CoreSound _getcoreSound(String str) {
     Map<String, String> hindiEnglish1 = {
       "A": "अ", //A
@@ -437,102 +410,104 @@ print("ss "+ss);
       "n": "न", //n
       "o": "ओ", //o
       "p": "प", //p
-      "q": "क्यों", //q
+      "q": "क", //q
       "r": "र", //r
       "s": "स", //s
       "t": "त", //t
       "u": "उ", //u
       "v": "व", //v
       "w": "व", //w
-      "x": "हऎ", //x
+      "x": "क्ष", //x
       "y": "य", //y
       "z": "ज", //z
-
     };
 
     var ftr = _getShift(str);
     var core = str;
 
-    if (ftr.coreSound == " " ) {
-      if (hindiEnglish1[str[0]] != null)
-        core = "${hindiEnglish1[str[0]]}";
+    if (ftr.coreSound == " ") {
+      if (hindiEnglish1[str[0]] != null) core = "${hindiEnglish1[str[0]]}";
       return CoreSound(coreSound: core, len: 1);
-    }
-    else {
+    } else {
       return ftr;
     }
   }
 
-
-
   String _characterSound(String c) {
     var str = c;
 
-     if (_isConsonant(str[0])) {
-      return  _getcoreSound(str).coreSound ;
+    if (_isConsonant(str[0])) {
+      return _getcoreSound(str).coreSound;
     } else {
       if (_isVowel(str[0])) {
-      return  _getcoreSound(str).coreSound;
+        return _getcoreSound(str).coreSound;
+      }
+      return "";
     }
-    return "";
-    }
-
   }
 
-
-
-  String _getSound(String str) {      //MAIN GETSOUND==TOTAL WORDS +TOTAL SOUND
+  String _getSound(String str) {
+    //MAIN GETSOUND==TOTAL WORDS +TOTAL SOUND
 
     if (str == " ") {
       return " ";
-     }
+    }
     if (str.length == 1) {
       return _characterSound(str[0]);
-    }
-    else {
+    } else {
       CoreSound coreSound = _getcoreSound(str);
       var matra = "";
       var consonant = "";
       if (coreSound.len >= 1) {
         matra = _getMatra(str.substring(coreSound.len));
-
-      }
-      else {
+      } else {
         matra = "";
       }
-    consonant = coreSound.coreSound;
-       //these lines were
-      return consonant  + matra;    //at end of if else
+      consonant = coreSound.coreSound;
+      if (consonant.split("").last == "a") {
+        consonant = "अ";
+        matra = "";
+      } else if (consonant.split("").last == "e") {
+        consonant = "ई";
+        matra = "";
+      } else if (consonant.split("").last == "i") {
+        consonant = "इ";
+        matra = "";
+      } else if (consonant.split("").last == "o") {
+        consonant = "ओ";
+        matra = "";
+      } else if (consonant.split("").last == "उ" ||
+          consonant.split("").last == "u") {
+        consonant = "उ";
+        matra = "";
+      }
+
+      //these lines were
+      return consonant + matra; //at end of if else
     }
   }
 
-
   String _transliterateEnglishToHindi(String str) {
-  var i = 0;
-  var ret = "";
-  var j = 0;
+    var i = 0;
+    var ret = "";
+    var j = 0;
 
-  bool vowelFlag = false;
+    bool vowelFlag = false;
 
-  var numbers = {
-    "0": '०', //NUMBERS HAIN ENG TO HINDI
-    "1": '१',
-    "2": '२',
-    "3": '३',
-    "4": '४',
-    "5": '५',
-    "6": '६',
-    "7": '७',
-    "8": '८',
-    "9": '९',
-  };
+    var numbers = {
+      "0": '०', //NUMBERS HAIN ENG TO HINDI
+      "1": '१',
+      "2": '२',
+      "3": '३',
+      "4": '४',
+      "5": '५',
+      "6": '६',
+      "7": '७',
+      "8": '८',
+      "9": '९',
+    };
 
-  while (i < str.length) {
-
-
-
-
-
+    while (i < str.length) {
 // print("getsound "+str.substring(j,i));
 // print("getsound vowelFlag "+"$vowelFlag");
 // print("getsound isVowel "+ _isVowel(str[i]).toString());
@@ -540,85 +515,81 @@ print("ss "+ss);
 // print("getsound isConsonant "+ _isConsonant(str[i]).toString());
 // print("getsound j i "+ "$j"+" $i");
 
-     if ((str[i] == ' ' && vowelFlag) ||
+      if ((str[i] == ' ' && vowelFlag) ||
           (!_isVowel(str[i]) && i > 0) ||
           //(!_isConsonant(str[i]) && i>0)||
-        (str[i] == '') ||
-         _isPunct(str[i]) ||
-        _isDigit(str[i]) ||
-        ((i - j) > 5)) {
+          (str[i] == '') ||
+          _isPunct(str[i]) ||
+          _isDigit(str[i]) ||
+          ((i - j) > 5)) {
+        if (j < i) {
+          // print("getsound "+str.substring(j,i));
+          // print("getsound j i "+ "$j"+" $i");
 
+          ret += _getSound(str.substring(j, i));
+          j = i + 1;
+        } //FOR HINDI WORDS
 
-     if(j<i){
-       // print("getsound "+str.substring(j,i));
-       // print("getsound j i "+ "$j"+" $i");
+        if (_isPunct(str[i])) {
+          //FOR PUNCTUATION AND SPECIAL CHARACTERS CHECKING
+          if (str[i] == '.') {
+            ret += ".";
+            j = i + 1;
+          } else if (str[i] == ',') {
+            ret += ",";
+            j = i + 1;
+          } else if (str[i] == '|') {
+            ret += "|";
+            j = i + 1;
+          } else if (str[i] == '(') {
+            ret += "(";
+            j = i + 1;
+          } else if (str[i] == ')') {
+            ret += ")";
+            j = i + 1; // with zws
+          } else if (str[i] == '-') {
+            //tanda hubung
+            ret += "-";
+            j = i + 1;
+          } else if (str[i] == '?') {
+            ret += "?";
+            j = i + 1; // with zws
+          } else if (str[i] == '!') {
+            ret += "!";
+            j = i + 1; // with zws
+          } else if (str[i] == '"') {
+            ret += "\"";
+            j = i + 1;
+          } else if (str[i] == "\'") {
+            ret += "\\'"; //NOT WORKING
+            j = i + 1;
+          } else {
+            ret += str[i];
+            j = i + 1;
+          }
+        } else if (_isDigit(str[i])) {
+          //FOR DIGIT CHECKING
 
-       ret += _getSound(str.substring(j, i));
-     j=i+1;}      //FOR HINDI WORDS
-
-
-
-      if (_isPunct(str[i])) { //FOR PUNCTUATION AND SPECIAL CHARACTERS CHECKING
-        if (str[i] == '.') {
-          ret += ".";
-          j = i + 1;
-        } else if (str[i] == ',') {
-          ret += ",";
-          j = i + 1;
-        } else if (str[i] == '|') {
-          ret += "|";
-          j = i + 1;
-        } else if (str[i] == '(') {
-          ret += "(";
-          j = i + 1;
-        } else if (str[i] == ')') {
-          ret += ")";
-          j = i + 1; // with zws
-        } else if (str[i] == '-') {
-          //tanda hubung
-          ret += "-";
-          j = i + 1;
-        } else if (str[i] == '?') {
-          ret += "?";
-          j = i + 1; // with zws
-        } else if (str[i] == '!') {
-          ret += "!";
-          j = i + 1; // with zws
-        } else if (str[i] == '"') {
-          ret += "\"";
-          j = i + 1;
-        } else if (str[i] == "\'") {
-          ret += "\\'"; //NOT WORKING
+          ret += "${numbers[str[i]]}";
+          // ret += "${hindiEnglish[str[i]]}";
+          //numbersFlag = true;
           j = i + 1;
         } else {
-          ret += str[i];
-          j = i + 1;
+          j = i;
         }
-      }
-      else if (_isDigit(str[i])) { //FOR DIGIT CHECKING
-
-         ret += "${numbers[str[i]]}";
-       // ret += "${hindiEnglish[str[i]]}";
-        //numbersFlag = true;
-        j = i + 1;
+        vowelFlag = true;
       }
 
-      else {
-        j = i;
-      }
-       vowelFlag=true;
+      i++;
+    } //end while loop
+    if (j < i) {
+      // print("getsound outOfLoop "+str.substring(j,i));
+      // print("getsound outOfLoop j i "+ "$j"+" $i");
+      ret += _getSound(str.substring(j, i));
+      j = i + 1;
     }
-
-    i++;
-  } //end while loop
-  if (j < i) {
-    // print("getsound outOfLoop "+str.substring(j,i));
-    // print("getsound outOfLoop j i "+ "$j"+" $i");
-    ret += _getSound(str.substring(j, i));
-    j=i+1;
+    return ret;
   }
-  return ret;
-}
 }
 
 class CoreSound {
