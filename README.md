@@ -1,10 +1,13 @@
-# transliterate
+### Phonetic typing
 
-Flutter project to transliterate english to hindi language.
+A phonetic hindi typing package with regular english keyboard on desktop and on phones.
+
+<img src="https://user-images.githubusercontent.com/92981536/141763682-3ab95997-84a8-42c9-8571-0b63b2ffad0e.gif" alt="gif" width="250"/>
+
 
 ## Getting Started
 
-Transliterate Flutter project to transliterate english to hindi language.
+Flutter project to transliterate english to hindi language.
 
 ## Features
 
@@ -19,90 +22,77 @@ string with the last selected words. For eg. सामा +न्+य will give 
 
 ## Installation
 
-See the installation instructions on pub.
+See the [installation instructions on pub](https://pub.dev/packages/transliterate/install)
 
 ## Use it as follows:
 
-1)
+* `totalSuggestions` = `transliterate.suggestions(`
+  `name:` `name,` `sugg:` `sugSelected`
+  ); //This function will execute with a average time of 30ms.
 
-totalSuggestions = transliterate.suggestions(
-name: name, sugg: sugSelected
-); This function will execute with a average time of 30ms.
+  Where `totalSuggestions` will give you a list of suggestions,In which two parameters have to be
+  passed i.e `name`(your TextField text or controller text)
+  and `sugg` i.e the suggestion which user have selected.
 
-Where totalSuggestions will give you a list of suggestions,In which two parameters have to be passed
-i.e name(your TextField text or controller text)
-and sugg i.e the suggestion which user have selected.
+* Or you can directly pass string to String abc=`transliterate.englishToHindi(String str);`
 
-2)
+  It is recommended to use `totalSuggestions` as some of the words are difficult to transliterate so
+  you can construct your own words.
 
-Or you can directly pass string to String abc=transliterate.englishToHindi(String str);
-
-It is recommended to use totalSuggestions as some of the words are difficult to transliterate so you
-can construct your own words.
-
-3)
-
-isWord() function is used to check last remained string which has not being transliterated(Words
-that are in english language).
+* `isWord()` function is used to check last remained string which has not being transliterated(Words
+  that are in english language).
 
 ## Material Example 1:
 
-Widget build(BuildContext context) { inputController.text=name; final val = TextSelection.collapsed(
-offset: name.length); inputController.selection = val; print("BUILD");
 
+```dart
     onSuggsnSelected(suggestion) {
-      print("On sug selected");
-      sugSelected = suggestion.toString();
-      String attch=transliterate.word(name);
-      
-      start=name.length-attch.length;
-      end=name.length;
+  print("On sug selected");
+  sugSelected = suggestion.toString();
+  String attch=transliterate.word(name);
 
-        inputController.text = name.replaceRange(start, end, sugSelected);
-    }
+  start=name.length-attch.length;
+  end=name.length;
 
+  inputController.text = name.replaceRange(start, end, sugSelected);
+}
+```
 In this onSuggestionSelected method it will replace your english characters present at the end of
 your controller WITH selected suggestion. word(name)-> is checking for the english characters
 present at end of your TextField.
-
+```dart
     suggsnCallBack(pattern) {
-     
 
+  if(name!=""){
+    if(totalSuggestions.first!=""){
+      sugFirst=totalSuggestions.first;
+    }
 
-      if(name!=""){
-        if(totalSuggestions.first!=""){
-          sugFirst=totalSuggestions.first;
-        }
+    start=name.length-(inputChar.length+1);
+    end=name.length;
 
-         start=name.length-(inputChar.length+1);
-         end=name.length;
+    if(name.length>1
+            &&(name.split("").last==" ")
+            &&(transliterate.isVC(name))){
+      if(sugFirst!=" "){
+        name = name.replaceRange(start, end, sugFirst)+" ";
+        setState(() {
 
-        if(name.length>1
-             &&(name.split("").last==" ")
-               &&(transliterate.isVC(name))){
-            if(sugFirst!=" "){
-              name = name.replaceRange(start, end, sugFirst)+" ";
-              setState(() {
-
-              });
-            }
-
-          final val = TextSelection.collapsed(offset: name.length);
-          inputController.selection = val;                 //CURSOR POSITION CODE
-
-        }
+        });
       }
 
+      final val = TextSelection.collapsed(offset: name.length);
+      inputController.selection = val;                 //CURSOR POSITION CODE
 
+    }
+  }
+  totalSuggestions = transliterate.suggestions(
+          name: name, sugg: sugSelected
+  );
 
-   
-        totalSuggestions = transliterate.suggestions(
-            name: name, sugg: sugSelected
-        );
-
-        return totalSuggestions;
-      }
-
+  return totalSuggestions;
+}
+```
 In this suggestionsCallback method it will return you the desired list of suggestion, from which if
 you found your word you can select it or click space or you can construct your own words by
 selecting individual matras and halants of characters. In the starting sugFirst is a variable which
@@ -117,6 +107,21 @@ totalSuggestions will give us all the list of the suggestions for your last word
 
 For any other issue take reference from the example folder.
 
+## Common Fixes
+If desktop app is not rendering the hindi words properly
+Insert a <script> tag in web/index.html file before the main.dart.js script.
+Set window.flutterWebRenderer to "html":
+```html
+<script type="text/javascript">
+    let useHtml = // ...
+    if(useHtml) {
+      window.flutterWebRenderer = "html";
+    } else {
+      window.flutterWebRenderer = "canvaskit";
+    }
+  </script>
+<script src="main.dart.js" type="application/javascript"></script>
+```
       
       
      
