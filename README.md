@@ -1,8 +1,9 @@
-## Phonetic typing
+### Phonetic typing
 
 A phonetic hindi typing package with regular english keyboard on desktop and on phones.
 
-![gif](Assets/transliterateExample.gif)
+<img src="Assets/transliterateExample.gif" alt="gif" width="250"/>
+
 ## Getting Started
 
 Flutter project to transliterate english to hindi language.
@@ -20,77 +21,76 @@ string with the last selected words. For eg. सामा +न्+य will give 
 
 ## Installation
 
-See the installation instructions on pub.
+See the [installation instructions on pub](https://pub.dev/packages/transliterate/install)
 
 ## Use it as follows:
 
-* 'totalSuggestions' = 'transliterate.suggestions('
-  'name:' 'name,' 'sugg:' 'sugSelected'
+* `totalSuggestions` = `transliterate.suggestions(`
+  `name:` `name,` `sugg:` `sugSelected`
   ); //This function will execute with a average time of 30ms.
 
-  Where 'totalSuggestions' will give you a list of suggestions,In which two parameters have to be
-  passed i.e 'name'(your TextField text or controller text)
-  and 'sugg' i.e the suggestion which user have selected.
+  Where `totalSuggestions` will give you a list of suggestions,In which two parameters have to be
+  passed i.e `name`(your TextField text or controller text)
+  and `sugg` i.e the suggestion which user have selected.
 
-* Or you can directly pass string to String abc='transliterate.englishToHindi(String str);'
+* Or you can directly pass string to String abc=`transliterate.englishToHindi(String str);`
 
-  It is recommended to use 'totalSuggestions' as some of the words are difficult to transliterate so
+  It is recommended to use `totalSuggestions` as some of the words are difficult to transliterate so
   you can construct your own words.
 
-* 'isWord()' function is used to check last remained string which has not being transliterated(Words
+* `isWord()` function is used to check last remained string which has not being transliterated(Words
   that are in english language).
 
 ## Material Example 1:
 
-Widget build(BuildContext context) { inputController.text=name; final val = TextSelection.collapsed(
-offset: name.length); inputController.selection = val; print("BUILD");
+
 ```dart
     onSuggsnSelected(suggestion) {
-      print("On sug selected");
-      sugSelected = suggestion.toString();
-      String attch=transliterate.word(name);
-      
-      start=name.length-attch.length;
-      end=name.length;
+  print("On sug selected");
+  sugSelected = suggestion.toString();
+  String attch=transliterate.word(name);
 
-        inputController.text = name.replaceRange(start, end, sugSelected);
-    }
+  start=name.length-attch.length;
+  end=name.length;
+
+  inputController.text = name.replaceRange(start, end, sugSelected);
+}
 ```
 In this onSuggestionSelected method it will replace your english characters present at the end of
 your controller WITH selected suggestion. word(name)-> is checking for the english characters
 present at end of your TextField.
 ```dart
     suggsnCallBack(pattern) {
-    
-      if(name!=""){
-        if(totalSuggestions.first!=""){
-          sugFirst=totalSuggestions.first;
-        }
 
-         start=name.length-(inputChar.length+1);
-         end=name.length;
+  if(name!=""){
+    if(totalSuggestions.first!=""){
+      sugFirst=totalSuggestions.first;
+    }
 
-        if(name.length>1
-             &&(name.split("").last==" ")
-               &&(transliterate.isVC(name))){
-            if(sugFirst!=" "){
-              name = name.replaceRange(start, end, sugFirst)+" ";
-              setState(() {
+    start=name.length-(inputChar.length+1);
+    end=name.length;
 
-              });
-            }
+    if(name.length>1
+            &&(name.split("").last==" ")
+            &&(transliterate.isVC(name))){
+      if(sugFirst!=" "){
+        name = name.replaceRange(start, end, sugFirst)+" ";
+        setState(() {
 
-          final val = TextSelection.collapsed(offset: name.length);
-          inputController.selection = val;                 //CURSOR POSITION CODE
-
-        }
+        });
       }
-        totalSuggestions = transliterate.suggestions(
-            name: name, sugg: sugSelected
-        );
 
-        return totalSuggestions;
-      }
+      final val = TextSelection.collapsed(offset: name.length);
+      inputController.selection = val;                 //CURSOR POSITION CODE
+
+    }
+  }
+  totalSuggestions = transliterate.suggestions(
+          name: name, sugg: sugSelected
+  );
+
+  return totalSuggestions;
+}
 ```
 In this suggestionsCallback method it will return you the desired list of suggestion, from which if
 you found your word you can select it or click space or you can construct your own words by
@@ -119,7 +119,7 @@ Set window.flutterWebRenderer to "html":
       window.flutterWebRenderer = "canvaskit";
     }
   </script>
-  <script src="main.dart.js" type="application/javascript"></script>
+<script src="main.dart.js" type="application/javascript"></script>
 ```
       
       
