@@ -2,7 +2,7 @@
 
 A phonetic hindi typing package with regular english keyboard on desktop and on phones.
 
-<img src="https://user-images.githubusercontent.com/92981536/141763682-3ab95997-84a8-42c9-8571-0b63b2ffad0e.gif" alt="gif" width="250"/>
+<img src="https://raw.githubusercontent.com/saralweb/sw-phonetic_typing/master/Assets/transliterateExample.gif" alt="gif" width="250"/>
 
 
 ## Getting Started
