@@ -2,7 +2,8 @@
 
 A phonetic hindi typing package with regular english keyboard on desktop and on phones.
 
-![gif](Assets/transliterateExample.gif)
+<img src="Assets/transliterateExample.gif" alt="gif" width="250"/>
+
 ## Getting Started
 
 Flutter project to transliterate english to hindi language.
