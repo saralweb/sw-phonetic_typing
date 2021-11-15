@@ -1,7 +1,7 @@
-name: transliterate
-description: A new Flutter project to transliterate english to hindi language.
-version: 0.0.1
-homepage: https://github.com/saralweb/sw-transliterate
+name: phonetic_typing
+description: Enable phonetic hindi typing with regular english keyboard on desktop and on phones.
+version: 0.0.2
+homepage: https://github.com/saralweb/sw-phonetic_typing
 
 
 environment:

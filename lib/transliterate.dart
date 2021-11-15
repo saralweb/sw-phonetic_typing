@@ -4,16 +4,13 @@ import 'allMap.dart';
 
 /// Class to convert english to hindi
 class Transliterate {
-  // String consonants="bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ";
-  // var vowels = "AaEeIiOoUu";
-  // var punctuation = ",.><?/+=-_}{[]*&^%\$#@!~`\"\\|:;()";
-  // var digits = "0123456789";
   String lastWordOfName = "";
   String reten = "";
 
   // consonants.split("").for
 
   String englishToHindi(String str) {
+    //Function to return transliterated word
     str = str.toLowerCase();
 
     var hindi = _transliterateEnglishToHindi(str);
@@ -21,6 +18,7 @@ class Transliterate {
   }
 
   List suggestions({required String name, required String sugg}) {
+    //Creates a list of suggestion to show
     name = name.toLowerCase();
     print("name in pac " + name);
 
@@ -67,6 +65,7 @@ class Transliterate {
   }
 
   String lastWordOf(String name) {
+    //Function to fetch last word of a string divided by space
     String ss = "";
     print("name in lastWord $name");
     ss = name.split(" ").last;
@@ -75,6 +74,7 @@ class Transliterate {
   }
 
   String patt0(String patt0) {
+    //Return list of first characters from allMap.dart
     if (sugges[patt0] != null) {
       patt0 = sugges[patt0][0];
     }
@@ -82,6 +82,7 @@ class Transliterate {
   }
 
   String ret({required String name}) {
+    //Create a word using characters fetched from patt0() function
     String reten = "", reten2 = "";
     name = name.split(" ").last;
     int i = 0;
@@ -102,6 +103,8 @@ class Transliterate {
   }
 
   String word(String input) {
+    //func for returning the last word divided by space
+    //
     String ans = "", wrd = input.split(" ").last;
     int i = wrd.length - 1;
     while (i >= 0 &&
@@ -129,32 +132,38 @@ class Transliterate {
   }
 
   bool _findstr(String str, String tofind) {
+    //To find the string provided with where to find
     for (var i = 0; i < str.length; i++) if (str[i] == tofind) return true;
     return false;
   }
 
   bool _isDigit(String a) {
+    //for checking digits
     var str = "0123456789";
     return _findstr(str, a);
   }
 
   bool _isPunct(String a) {
+    //for checking punctuation marks
     var str = ",.><?/+=-_}{[]*&^%\$#@!~`\"\\|:;()";
     return _findstr(str, a);
   }
 
   bool _isVowel(String a) {
+    //for checking if given character is a vowel or not
     var str = "AaEeIiOoUu";
     return _findstr(str, a);
   }
 
   bool _isConsonant(String a) {
+    //for checking if given character is a consonant or not
     var str = "bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ";
     return _findstr(str, a);
   }
 
   //To get matra for consonants
   String _getMatra(String str) {
+    //for getting matras for the desired words
     var i = 0;
 
     if (str == "a") {
@@ -205,6 +214,7 @@ class Transliterate {
   }
 
   CoreSound _getShift(String str) {
+    //function that will return charcters based on index
     str = str.toLowerCase();
 
     //VOWELS DEFINITION
@@ -239,131 +249,12 @@ class Transliterate {
       }
       return CoreSound(coreSound: "क", len: 1);
     }
-    //
-    // else if (str.indexOf("g") == 0) {
-    //   if (str.indexOf("gh") == 0) {
-    //     return CoreSound(coreSound: "घ", len: 1);
-    //   }
-    //   return CoreSound(coreSound: "ग", len: 1);
-    // }
-    //
-    //
-    // else if (str.indexOf("c") == 0) {
-    //   if (str.indexOf("ch") == 0) {
-    //     if (str.indexOf("cha") == 0) {
-    //       return CoreSound(coreSound: "छ", len: 3);
-    //     }
-    //     return CoreSound(coreSound: "च", len: 2);
-    //   }
-    //   return CoreSound(coreSound: "च", len: 1);
-    // }
-    //
-    // else if (str.indexOf("j") == 0) {
-    //   if (str.indexOf("jh") == 0) {
-    //     return CoreSound(coreSound: "झ", len: 1);
-    //   }
-    //   return CoreSound(coreSound: "ज", len: 1);
-    // }
-    //
-    //
-    //
-    // else if (str.indexOf("t") == 0) {
-    //
-    // if (str.indexOf("ta") == 0) {
-    // return CoreSound(coreSound: "ट", len: 2);
-    // }
-    //   return CoreSound(coreSound: "त", len: 1);
-    // }
-    // else if (str.indexOf("tha") == 0) {
-    //   if (str.indexOf("thaa") == 0) {
-    //     return CoreSound(coreSound: "थ", len: 4);
-    //   }
-    //   return CoreSound(coreSound: "ठ", len: 1);
-    // }
-    // else if (str.indexOf("dda") == 0) {
-    //   return CoreSound(coreSound: "ड", len: 1);
-    // }
-    // else if (str.indexOf("dha") == 0) {
-    //   return CoreSound(coreSound: "ढ", len: 1);
-    // }
-    // else if (str.indexOf("nya") == 0) {
-    //   return CoreSound(coreSound: "ण", len: 1);
-    // }
-    //
-    // else if (str.indexOf("p") == 0) {
-    //   if (str.indexOf("ph") == 0) {
-    //     return CoreSound(coreSound: "फ", len: 2);
-    //   }
-    //   return CoreSound(coreSound: "प", len: 1);
-    // }
-    // // else if (str.indexOf("b") == 0) {
-    // //   if (str.indexOf("ba") == 0) {
-    // //
-    // //     return CoreSound(coreSound: "ब", len: 2);
-    // //   }
-    // //   return CoreSound(coreSound: "ब", len: 1);
-    // // }
-    // else if (str.indexOf("sh") == 0) {
-    //   //sh (aksara murda)
-    //   return CoreSound(coreSound: "श", len: 2);
-    // }
-    //
-    //
-    // else if (str.indexOf("d") == 0) {
-    // if (str.indexOf("dha") == 0) {
-    // return CoreSound(coreSound: "ध", len: 3);
-    // }
-    //   return CoreSound(coreSound: "द", len: 1);
-    // }
-    // else if (str.indexOf("n") == 0) {
-    //   return CoreSound(coreSound: "न", len: 1);
-    // }
-    // else if (str.indexOf("k") == 0) {
-    //   return CoreSound(coreSound: "क", len: 1);
-    // }
-    // else if (str.indexOf("k") == 0) {
-    //   return CoreSound(coreSound: "क", len: 1);
-    // }
-    // else if (str.indexOf("k") == 0) {
-    //   return CoreSound(coreSound: "क", len: 1);
-    // }
-    // else if (str.indexOf("k") == 0) {
-    //   return CoreSound(coreSound: "क", len: 1);
-    // }
-    // else if (str.indexOf("k") == 0) {
-    //   return CoreSound(coreSound: "क", len: 1);
-    // }
-    // else if (str.indexOf("k") == 0) {
-    //   return CoreSound(coreSound: "क", len: 1);
-    // }
-    // else if (str.indexOf("k") == 0) {
-    //   return CoreSound(coreSound: "क", len: 1);
-    // }
-    // else if (str.indexOf("k") == 0) {
-    //   return CoreSound(coreSound: "क", len: 1);
-    // }
-    // else if (str.indexOf("k") == 0) {
-    //   return CoreSound(coreSound: "क", len: 1);
-    // }
-    // else if (str.indexOf("k") == 0) {
-    //   return CoreSound(coreSound: "क", len: 1);
-    // }
-    // else if (str.indexOf("k") == 0) {
-    //   return CoreSound(coreSound: "क", len: 1);
-    // }
-    // else if (str.indexOf("k") == 0) {
-    //   return CoreSound(coreSound: "क", len: 1);
-    // }
-    //
-    //
-    // if (str.indexOf("s") == 0) {
-    //   return CoreSound(coreSound: "स", len: 1);
-    // }
 
     return CoreSound(coreSound: " ", len: 1);
   }
 
   CoreSound _getcoreSound(String str) {
+    //Picking of hindi character with respect to english characters
     Map<String, String> hindiEnglish1 = {
       "A": "अ", //A
       "म्": "म्", //A
@@ -434,6 +325,7 @@ class Transliterate {
   }
 
   String _characterSound(String c) {
+    //For some special sound characters
     var str = c;
 
     if (_isConsonant(str[0])) {
@@ -447,6 +339,7 @@ class Transliterate {
   }
 
   String _getSound(String str) {
+    //Function where all the strings gets concat to make a word
     //MAIN GETSOUND==TOTAL WORDS +TOTAL SOUND
 
     if (str == " ") {
@@ -488,6 +381,7 @@ class Transliterate {
   }
 
   String _transliterateEnglishToHindi(String str) {
+    //Final function which reten the values and concat them to make a final word
     var i = 0;
     var ret = "";
     var j = 0;
@@ -593,6 +487,7 @@ class Transliterate {
 }
 
 class CoreSound {
+  //For getting words and their length
   String coreSound;
   int len;
 
