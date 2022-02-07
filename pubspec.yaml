@@ -1,8 +1,7 @@
 name: phonetic_typing
 description: Enable phonetic hindi typing with regular english keyboard on desktop and on phones.
-version: 0.0.2
+version: 0.0.6
 homepage: https://github.com/saralweb/sw-phonetic_typing
-
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -11,7 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
 
 dev_dependencies:
   flutter_test:

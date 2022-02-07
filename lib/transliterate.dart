@@ -104,7 +104,6 @@ class Transliterate {
 
   String word(String input) {
     //func for returning the last word divided by space
-    //
     String ans = "", wrd = input.split(" ").last;
     int i = wrd.length - 1;
     while (i >= 0 &&

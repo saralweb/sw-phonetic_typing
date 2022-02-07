@@ -46,50 +46,52 @@ See the [installation instructions on pub](https://pub.dev/packages/transliterat
 
 
 ```dart
-    onSuggsnSelected(suggestion) {
-  print("On sug selected");
-  sugSelected = suggestion.toString();
-  String attch=transliterate.word(name);
+///Function to perform task when any suggestion is being clicked
+ onSuggsnSelected(suggestion) {
+  sugSelected = suggestion.toString();  ///Selected suggestion
+  String attch=transliterate.word(name);  ///To get the last word of 'name(your text)'
 
-  start=name.length-attch.length;
-  end=name.length;
+  start=name.length-attch.length;  ///Starting length of english words to be replaced
+  end=name.length;                ///Ending length for replaceable word
 
-  inputController.text = name.replaceRange(start, end, sugSelected);
+  inputController.text = name.replaceRange(start, end, sugSelected); 
+     ///Replace english word with hindi word selected
 }
 ```
 In this onSuggestionSelected method it will replace your english characters present at the end of
 your controller WITH selected suggestion. word(name)-> is checking for the english characters
 present at end of your TextField.
 ```dart
-    suggsnCallBack(pattern) {
-
+///Function for generating suggestion words
+ suggsnCallBack(pattern) {
   if(name!=""){
     if(totalSuggestions.first!=""){
+      ///first word selected from list of suggestions to be replaced
       sugFirst=totalSuggestions.first;
     }
-
+    ///Starting length of english words to be replaced
     start=name.length-(inputChar.length+1);
-    end=name.length;
-
+    end=name.length;  ///Ending length for replaceable word
     if(name.length>1
             &&(name.split("").last==" ")
-            &&(transliterate.isVC(name))){
+            &&(transliterate.isVC(name))){   ///Checks if english characters are there 
       if(sugFirst!=" "){
+        ///if first suggestion word is not blank, replace it with selected suggestion 
         name = name.replaceRange(start, end, sugFirst)+" ";
         setState(() {
-
         });
       }
-
       final val = TextSelection.collapsed(offset: name.length);
-      inputController.selection = val;                 //CURSOR POSITION CODE
-
+      ///Put the cursor position to end
+      inputController.selection = val;                 
     }
   }
-  totalSuggestions = transliterate.suggestions(
+  ///Gives the expected hindi output for name being passed(or typed word)
+  totalSuggestions = transliterate.suggestions(  
+    ///name:your text, sugg: your selected suggestion
           name: name, sugg: sugSelected
   );
-
+ ///return expected list of suggestions
   return totalSuggestions;
 }
 ```
@@ -109,13 +111,13 @@ For any other issue take reference from the example folder.
 
 ## Common Fixes
 If desktop app is not rendering the hindi words properly
-Insert a <script> tag in web/index.html file before the main.dart.js script.
+Insert a tag in web/index.html file before the main.dart.js script.
 Set window.flutterWebRenderer to "html":
 ```html
 <script type="text/javascript">
     let useHtml = // ...
     if(useHtml) {
-      window.flutterWebRenderer = "html";
+      window.flutterWebRenderer = "html";  
     } else {
       window.flutterWebRenderer = "canvaskit";
     }
